@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reehan — About Me</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =====================
+       CSS VARIABLES & RESET
+    ===================== */
+    :root {
+      --navy:   #0d1b2a;
+      --navy2:  #1b2d45;
+      --navy3:  #253d5b;
+      --teal:   #00b4a6;
+      --teal2:  #00d4c4;
+      --white:  #f8fafc;
+      --grey:   #94a3b8;
+      --light:  #e2e8f0;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =====================
+       NAVIGATION
+    ===================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
+      background: rgba(13, 27, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,180,166,0.15);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--light);
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--teal);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--teal); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      transition: all 0.3s;
+    }
+
+    /* =====================
+       PAGE HEADER BANNER
+    ===================== */
+    .page-banner {
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--navy2) 0%, var(--navy) 100%);
+    }
+
+    .page-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,180,166,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,180,166,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .page-banner h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .page-banner .page-sub {
+      color: var(--grey);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .teal-bar {
+      width: 60px; height: 4px;
+      background: var(--teal);
+      border-radius: 2px;
+      margin: 1rem auto 0;
+      position: relative;
+    }
+
+    /* =====================
+       AVATAR SECTION
+    ===================== */
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 2rem 2rem;
+    }
+
+    .avatar-ring {
+      position: relative;
+      width: 230px; height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+    }
+
+    /* Outer glow ring */
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,180,166,0.2) 0%, transparent 70%);
+      animation: ringPulse 3s ease-in-out infinite;
+    }
+
+    /* Spinning dashed ring */
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(0,180,166,0.35);
+      animation: spin 18s linear infinite;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50%       { transform: scale(1.05); opacity: 1; }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .avatar-img {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--teal);
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Fallback placeholder shown when image fails or is absent */
+    .avatar-placeholder {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 4px solid var(--teal);
+      background: var(--navy2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.05em;
+    }
+
+    .avatar-name {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .avatar-tagline {
+      color: var(--teal);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* =====================
+       SECTION WRAPPER
+    ===================== */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 1.6rem;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 0 auto;
+    }
+
+    /* =====================
+       PERSONAL STORY
+    ===================== */
+    .story-block {
+      background: var(--navy2);
+      border: 1px solid rgba(0,180,166,0.15);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-block::before {
+      content: '"';
+      position: absolute;
+      top: -10px; left: 20px;
+      font-family: var(--font-display);
+      font-size: 10rem;
+      color: rgba(0,180,166,0.08);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .story-block p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--light);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =====================
+       HOBBIES CARDS
+    ===================== */
+    .hobbies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .hobby-card {
+      background: var(--navy2);
+      border: 1px solid rgba(0,180,166,0.12);
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .hobby-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0,180,166,0.15);
+    }
+
+    .hobby-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .hobby-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--white);
+    }
+
+    .hobby-card p {
+      font-size: 0.85rem;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    /* =====================
+       GOALS & ACHIEVEMENTS
+    ===================== */
+    .ga-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+
+    .ga-card {
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ga-card.goal {
+      background: linear-gradient(135deg, rgba(0,180,166,0.12), rgba(0,180,166,0.04));
+      border: 1px solid rgba(0,180,166,0.3);
+    }
+
+    .ga-card.achievement {
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.02));
+      border: 1px solid rgba(255,215,0,0.25);
+    }
+
+    .ga-card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .ga-card-type {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .ga-card.goal .ga-card-type { color: var(--teal); }
+    .ga-card.achievement .ga-card-type { color: #ffd700; }
+
+    .ga-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .ga-card p {
+      font-size: 0.88rem;
+      color: var(--grey);
+      line-height: 1.65;
+    }
+
+    /* =====================
+       FOOTER
+    ===================== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--grey);
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 2rem;
+    }
+
+    footer a { color: var(--teal); text-decoration: none; }
+
+    /* =====================
+       MOBILE
+    ===================== */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.3rem; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.3rem; }
+      .hamburger { display: flex; }
+
+      .ga-grid { grid-template-columns: 1fr; }
+
+      .avatar-ring { width: 180px; height: 180px; }
+      .avatar-img, .avatar-placeholder { width: 160px; height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Ree<span>han</span></a>
+    <button class="hamburger" aria-label="Toggle menu" onclick="this.classList.toggle('open'); document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="professional.html">Professional</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <h1>About Me</h1>
+    <p class="page-sub">My story, passions & aspirations</p>
+    <div class="teal-bar"></div>
+  </div>
+
+  <!-- AVATAR -->
+  <div class="avatar-section">
+    <div class="avatar-ring">
+      <img
+        class="avatar-img"
+        src="avatar.png"
+        alt="Reehan's avatar"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="avatar-placeholder" style="display:none;">R</div>
+    </div>
+    <h2 class="avatar-name">Reehan</h2>
+    <p class="avatar-tagline">Marketing Student · Island Creative · Future Digital Leader</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PERSONAL STORY -->
+  <section class="section">
+    <p class="section-label">My Story</p>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="story-block">
+      <p>
+        Growing up in the vibrant capital city of Malé, Maldives, I've always been surrounded by beauty — from the turquoise ocean to the energy of island life. That environment shaped my eye for aesthetics and my love for capturing moments through photography. Today, I channel that creative instinct into marketing, studying at Maldives National University (MNU) where I'm learning how brands tell stories, connect with audiences, and drive real impact in the digital age. I believe great marketing, like a great photograph, is all about perspective — and I'm here to bring a fresh one.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOBBIES -->
+  <section class="section">
+    <p class="section-label">Passions</p>
+    <h2 class="section-title">Hobbies & Interests</h2>
+    <div class="hobbies-grid">
+
+      <div class="hobby-card">
+        <span class="hobby-icon">📸</span>
+        <h3>Photography</h3>
+        <p>Capturing island life, seascapes, and street moments. Photography trains me to see what others overlook.</p>
+      </div>
+
+      <div class="hobby-card">
+        <span class="hobby-icon">⚽</span>
+        <h3>Sports</h3>
+        <p>Passionate about football and swimming. Sports taught me teamwork, discipline, and the importance of strategy.</p>
+      </div>
+
+      <div class="hobby-card">
+        <span class="hobby-icon">📱</span>
+        <h3>Digital Trends</h3>
+        <p>Always exploring the latest in social media, digital culture, and how brands navigate the online world.</p>
+      </div>
+
+      <div class="hobby-card">
+        <span class="hobby-icon">🌊</span>
+        <h3>Island Exploration</h3>
+        <p>Living in the Maldives means the ocean is always calling. I love exploring nearby islands and discovering hidden spots.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- GOALS & ACHIEVEMENTS -->
+  <section class="section">
+    <p class="section-label">Journey</p>
+    <h2 class="section-title">Goals & Achievements</h2>
+    <div class="ga-grid">
+
+      <div class="ga-card goal">
+        <span class="ga-card-icon">🎯</span>
+        <div class="ga-card-type">Personal Goal</div>
+        <h3>Digital Marketing Manager</h3>
+        <p>My ambition is to lead digital marketing strategy for a forward-thinking brand — driving campaigns that connect, convert, and create lasting impact.</p>
+      </div>
+
+      <div class="ga-card achievement">
+        <span class="ga-card-icon">🏆</span>
+        <div class="ga-card-type">Achievement</div>
+        <h3>Graduated with Distinction</h3>
+        <p>Earned a distinction grade in my studies, reflecting my commitment to excellence and dedication to going beyond what is expected.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Reehan · Malé, Maldives · <a href="professional.html">View Professional Profile →</a></p>
+  </footer>
+
+</body>
+</html>
