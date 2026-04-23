@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reehan — Professional Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =====================
+       CSS VARIABLES & RESET
+    ===================== */
+    :root {
+      --navy:   #0d1b2a;
+      --navy2:  #1b2d45;
+      --navy3:  #253d5b;
+      --teal:   #00b4a6;
+      --teal2:  #00d4c4;
+      --white:  #f8fafc;
+      --grey:   #94a3b8;
+      --light:  #e2e8f0;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =====================
+       NAVIGATION
+    ===================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
+      background: rgba(13, 27, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,180,166,0.15);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--light);
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--teal);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--teal); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+    }
+
+    /* =====================
+       PAGE HEADER BANNER
+    ===================== */
+    .page-banner {
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--navy2) 0%, var(--navy) 100%);
+    }
+
+    .page-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,180,166,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,180,166,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .page-banner h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .page-banner .page-sub {
+      color: var(--grey);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .teal-bar {
+      width: 60px; height: 4px;
+      background: var(--teal);
+      border-radius: 2px;
+      margin: 1rem auto 0;
+      position: relative;
+    }
+
+    /* =====================
+       PROFILE HEADER BLOCK
+    ===================== */
+    .profile-header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    /* Photo container */
+    .profile-photo-wrap {
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .profile-photo-img {
+      width: 180px;
+      height: 220px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 3px solid var(--teal);
+      box-shadow: 0 8px 32px rgba(0,180,166,0.25), 0 2px 8px rgba(0,0,0,0.4);
+      display: block;
+    }
+
+    /* Placeholder rectangle shown when profile.jpg is missing */
+    .profile-photo-placeholder {
+      width: 180px;
+      height: 220px;
+      border-radius: 12px;
+      background: var(--navy3);
+      border: 3px solid rgba(148,163,184,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      display: none; /* shown via JS if img fails */
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--grey);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .profile-photo-placeholder::before {
+      content: '👤';
+      font-size: 2.5rem;
+    }
+
+    /* Decorative corner accent */
+    .profile-photo-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; right: -8px;
+      width: 60px; height: 60px;
+      border-right: 3px solid var(--teal);
+      border-bottom: 3px solid var(--teal);
+      border-radius: 0 0 6px 0;
+    }
+
+    /* Text beside photo */
+    .profile-header-text {
+      flex: 1;
+      padding-top: 0.5rem;
+    }
+
+    .profile-header-text .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.7rem;
+    }
+
+    .profile-header-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-header-text .role {
+      font-size: 1.05rem;
+      color: var(--grey);
+      margin-bottom: 1.2rem;
+    }
+
+    .objective-box {
+      background: rgba(0,180,166,0.08);
+      border-left: 3px solid var(--teal);
+      padding: 1rem 1.3rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--light);
+    }
+
+    /* =====================
+       SECTION WRAPPER
+    ===================== */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* =====================
+       TIMELINE (Experience)
+    ===================== */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px;
+      width: 2px;
+      height: calc(100% - 8px);
+      background: linear-gradient(to bottom, var(--teal), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.45rem;
+      top: 4px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px rgba(0,180,166,0.2);
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-company {
+      font-size: 0.9rem;
+      color: var(--grey);
+      margin-bottom: 0.7rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--light);
+    }
+
+    /* =====================
+       SKILLS GRID
+    ===================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .skill-item {
+      background: var(--navy2);
+      border: 1px solid rgba(0,180,166,0.12);
+      border-radius: 10px;
+      padding: 1.3rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .skill-item:hover {
+      border-color: var(--teal);
+      transform: translateX(4px);
+    }
+
+    .skill-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .skill-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .skill-info p {
+      font-size: 0.8rem;
+      color: var(--grey);
+    }
+
+    /* Skill bar */
+    .skill-bar-wrap {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .skill-bar {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 2px;
+    }
+
+    /* =====================
+       EDUCATION CARDS
+    ===================== */
+    .edu-grid {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .edu-card {
+      background: var(--navy2);
+      border: 1px solid rgba(0,180,166,0.12);
+      border-radius: 12px;
+      padding: 1.8rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .edu-card:hover { border-color: rgba(0,180,166,0.4); }
+
+    .edu-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .edu-card-type {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.35rem;
+    }
+
+    .edu-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .edu-card .edu-institution {
+      font-size: 0.88rem;
+      color: var(--grey);
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-badge {
+      display: inline-block;
+      background: rgba(0,180,166,0.15);
+      color: var(--teal);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 100px;
+      border: 1px solid rgba(0,180,166,0.3);
+    }
+
+    /* =====================
+       CAREER OBJECTIVE
+    ===================== */
+    .objective-section {
+      background: linear-gradient(135deg, var(--navy2), var(--navy3));
+      border: 1px solid rgba(0,180,166,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .objective-section::after {
+      content: '→';
+      position: absolute;
+      right: 2rem; bottom: 1.5rem;
+      font-size: 4rem;
+      color: rgba(0,180,166,0.1);
+      font-family: var(--font-display);
+    }
+
+    .objective-section p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--light);
+      max-width: 700px;
+    }
+
+    /* =====================
+       FOOTER
+    ===================== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--grey);
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 2rem;
+    }
+
+    footer a { color: var(--teal); text-decoration: none; }
+
+    /* =====================
+       MOBILE
+    ===================== */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.3rem; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.3rem; }
+      .hamburger { display: flex; }
+
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .profile-photo-wrap::after { display: none; }
+
+      .profile-photo-img,
+      .profile-photo-placeholder {
+        width: 140px;
+        height: 175px;
+      }
+
+      .objective-box { text-align: left; }
+
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Ree<span>han</span></a>
+    <button class="hamburger" aria-label="Toggle menu" onclick="this.classList.toggle('open'); document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="professional.html" class="active">Professional</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner">
+    <h1>Professional Profile</h1>
+    <p class="page-sub">Experience · Skills · Education</p>
+    <div class="teal-bar"></div>
+  </div>
+
+  <!-- PROFILE HEADER with Photo -->
+  <div class="profile-header">
+    <div class="profile-photo-wrap">
+      <img
+        class="profile-photo-img"
+        src="profile.jpg"
+        alt="Reehan professional photo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="profile-photo-placeholder">Photo</div>
+    </div>
+
+    <div class="profile-header-text">
+      <div class="eyebrow">Professional Profile</div>
+      <h2>Reehan</h2>
+      <p class="role">Marketing Student · MNU · Malé, Maldives</p>
+      <div class="objective-box">
+        Aspiring Digital Marketing Manager passionate about data-driven storytelling, social media strategy, and building brands that resonate in the digital landscape.
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="max-width:900px; margin: 0 auto;"></div>
+
+  <!-- PROFESSIONAL BACKGROUND -->
+  <section class="section">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Professional Background</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2023 – 2024</div>
+        <div class="timeline-role">Marketing Intern</div>
+        <div class="timeline-company">XYZ Pvt Ltd · Malé, Maldives</div>
+        <p class="timeline-desc">
+          Supported the marketing team in planning and executing digital campaigns across social media platforms. Assisted with content creation, scheduling posts, tracking engagement analytics, and preparing weekly performance reports. Gained hands-on experience with brand communication and audience targeting strategies.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2022 – Present</div>
+        <div class="timeline-role">Freelance Social Media Content Creator</div>
+        <div class="timeline-company">Self-Employed · Remote</div>
+        <p class="timeline-desc">
+          Managed social media accounts for small local businesses, creating engaging photo and video content. Developed content calendars, monitored follower growth, and applied photography skills to produce high-quality visual assets for Instagram and Facebook marketing.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider" style="max-width:900px; margin: 0 auto;"></div>
+
+  <!-- KEY SKILLS -->
+  <section class="section">
+    <p class="section-label">Competencies</p>
+    <h2 class="section-title">Key Skills</h2>
+    <div class="skills-grid">
+
+      <div class="skill-item">
+        <span class="skill-icon">📱</span>
+        <div class="skill-info">
+          <h4>Social Media Marketing</h4>
+          <p>Instagram, Facebook, TikTok strategy</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <span class="skill-icon">📸</span>
+        <div class="skill-info">
+          <h4>Photography & Visual Content</h4>
+          <p>Composition, editing, brand visuals</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:82%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <span class="skill-icon">📊</span>
+        <div class="skill-info">
+          <h4>Analytics & Reporting</h4>
+          <p>Insights, KPIs, campaign metrics</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <span class="skill-icon">✍️</span>
+        <div class="skill-info">
+          <h4>Copywriting & Content</h4>
+          <p>Captions, blogs, ad copy</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <span class="skill-icon">🎯</span>
+        <div class="skill-info">
+          <h4>Campaign Planning</h4>
+          <p>Strategy, scheduling, budgeting basics</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-item">
+        <span class="skill-icon">🤝</span>
+        <div class="skill-info">
+          <h4>Communication & Teamwork</h4>
+          <p>Client-facing, collaborative, adaptable</p>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider" style="max-width:900px; margin: 0 auto;"></div>
+
+  <!-- EDUCATION -->
+  <section class="section">
+    <p class="section-label">Academic</p>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div>
+          <div class="edu-card-type">Undergraduate Degree</div>
+          <h3>Bachelor of Business Administration — Marketing</h3>
+          <p class="edu-institution">Maldives National University (MNU) · Malé, Maldives · 2022 – Present</p>
+          <span class="edu-badge">Currently Enrolled</span>
+        </div>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-icon">🏆</div>
+        <div>
+          <div class="edu-card-type">Previous Qualification</div>
+          <h3>Advanced Secondary Certificate</h3>
+          <p class="edu-institution">Secondary School · Malé, Maldives · Graduated 2022</p>
+          <span class="edu-badge">Distinction Graduate</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider" style="max-width:900px; margin: 0 auto;"></div>
+
+  <!-- CAREER OBJECTIVE -->
+  <section class="section">
+    <p class="section-label">Vision</p>
+    <h2 class="section-title">Career Objective</h2>
+    <div class="objective-section">
+      <p>
+        I am a motivated marketing student with a passion for digital strategy and creative content. My goal is to leverage my academic foundation, hands-on internship experience, and strong visual communication skills to grow into a Digital Marketing Manager role. I aim to work within a dynamic organisation where I can lead integrated campaigns, harness data-driven insights, and help brands build meaningful connections with their audiences — all while representing the creativity and ambition of a new generation of Maldivian marketing professionals.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Reehan · Malé, Maldives · <a href="about.html">← Back to About</a></p>
+  </footer>
+
+</body>
+</html>
